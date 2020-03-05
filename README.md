@@ -1,4 +1,4 @@
-# AHMED KAREEM DIMAH - IBN testing-Project / Simulating Intent-based networking with multiple network Vendors 
+# Ahmed Kareem Dimah - - IBN testing-Project / Simulating Intent-based networking with multiple network Vendors
 
 # STEPS 
   1- Featching datasets for each network service.
@@ -9,7 +9,7 @@
   3- Connecting the network with the module that got optimum learning rate from our datasets from step 1.
   4- Testing our module with multiple failures senarios. 
 
-## toplogy has been attached to the master/       
+# toplogy has been attached to the master/       
 
 # The network is currently and will run below networking vendors: 
   1- CISCO -IOS XE/CSR1000v, V16.07.01
@@ -42,7 +42,7 @@
     9- MPLS (mLDP) (NOKIA)
     10- MPLS (RSVP P2MP) (NOKIA)
     
-  # (Protoections: ECMP, TI/LFA, LFA remote, LFA local, graceful_restart, fitlers, Fast-reroute (Facility,one-to-one) )
+  - (Protoections: ECMP, TI/LFA, LFA remote, LFA local, graceful_restart, fitlers, Fast-reroute (Facility,one-to-one) )
   
   # Services:
     1- Xconnect (CISCO)
