@@ -16,14 +16,21 @@
 
 # The network is currently and will run below networking vendors: 
   1- CISCO -IOS XE/CSR1000v, V16.07.01
+  
   2- Nokia -TiMOS/7750 SR7, R14.01 
+  
   3- Cumulus - Linux/Linux, V3.7
   
   4- Juniper (Future update)
+  
   5- Arista (Future update)
+  
   6- Huawei (Future update)
+  
   7- HP (Future update)
+  
   8- CISCO -IOS XR (Future update)
+  
   9- Mellanox (future update)
   
 # Current Running Configuration: 
