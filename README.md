@@ -13,9 +13,9 @@
   
   4- Testing our module with multiple failures senarios. 
 
-# toplogy has been attached to the master/       
+# Toplogy has been attached to the master/       
 
-# The network is currently and will run below networking vendors: 
+# The network is currently run (but not limited to) below network vendors: 
   1- CISCO -IOS XE/CSR1000v, V16.07.01
   
   2- Nokia -TiMOS/7750 SR7, R14.01 
