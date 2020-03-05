@@ -11,7 +11,7 @@
     
   3- Connecting the network with the module that got optimum learning rate from our datasets from step 1.
   
-  4- Testing our module with multiple failures senarios. 
+  4- Testing our module with multiple network failures senarios. 
 
 # Toplogy has been attached to the master/       
 
