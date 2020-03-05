@@ -2,11 +2,14 @@
 
 # STEPS 
   1- Featching datasets for each network service.
+  
   2- Building machine learning algorithems to find the optimum one that will be used later:
     A- Supervised learning 
     B- Unsupervised learning 
     C- Re-inforcment learning
+    
   3- Connecting the network with the module that got optimum learning rate from our datasets from step 1.
+  
   4- Testing our module with multiple failures senarios. 
 
 # toplogy has been attached to the master/       
