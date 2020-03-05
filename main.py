@@ -7,7 +7,7 @@ import re
 # ips_file.close()
 
 def Write_file(data, name):
-    filz = open("/auto/DIMAH_Conn_Multi_Vendor/nodes_config/"+name, 'w')
+    filz = open("/auto/IBN/nodes_config/"+name, 'w')
     filz.write(data)
     filz.close()
 
