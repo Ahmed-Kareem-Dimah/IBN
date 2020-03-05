@@ -1,0 +1,337 @@
+-config 
+# TiMOS-B-14.0.R3 both/i386 ALCATEL SR 7750 Copyright (c) 2000-2016 Alcatel-Lucent.
+# All rights reserved. All use subject to applicable license agreements.
+# Built on Wed May 25 17:42:07 PDT 2016 by builder in /rel14.0/b1/R3/panos/main
+
+# Generated THU MAR 05 07:22:21 2020 UTC
+
+exit all
+configure
+#--------------------------------------------------
+echo "System Configuration"
+#--------------------------------------------------
+    system
+        name "P-1L"
+        chassis-mode d
+        dns
+        exit
+        snmp
+        exit
+        time
+            sntp
+                shutdown
+            exit
+            zone UTC 
+        exit
+        thresholds
+            rmon
+            exit
+        exit
+    exit
+#--------------------------------------------------
+echo "System Security Configuration"
+#--------------------------------------------------
+    system
+        security
+            no per-peer-queuing
+            cpu-protection
+                link-specific-rate max
+                policy 254 create
+                exit
+                policy 255 create
+                exit
+                port-overall-rate 15000 
+            exit
+        exit
+    exit
+#--------------------------------------------------
+echo "Log Configuration"
+#--------------------------------------------------
+    log 
+    exit 
+#--------------------------------------------------
+echo "System Security Cpm Hw Filters and PKI Configuration"
+#--------------------------------------------------
+    system
+        security
+        exit
+    exit
+#--------------------------------------------------
+echo "QoS Policy Configuration"
+#--------------------------------------------------
+    qos
+    exit
+#--------------------------------------------------
+echo "Card Configuration"
+#--------------------------------------------------
+    card 1
+        card-type iom3-xp-b
+        mda 1
+            mda-type m5-1gb-sfp-b
+            no shutdown
+        exit
+        no shutdown
+    exit
+#--------------------------------------------------
+echo "Port Configuration"
+#--------------------------------------------------
+    port 1/1/1
+        ethernet
+        exit
+        no shutdown
+    exit
+    port 1/1/2
+        ethernet
+        exit
+        no shutdown
+    exit
+    port 1/1/3
+        ethernet
+        exit
+        no shutdown
+    exit
+    port 1/1/4
+        ethernet
+        exit
+        no shutdown
+    exit
+    port 1/1/5
+        ethernet
+            mode hybrid
+            encap-type dot1q
+            mtu 1518
+        exit
+        no shutdown
+    exit
+#--------------------------------------------------
+echo "System Sync-If-Timing Configuration"
+#--------------------------------------------------
+    system
+        sync-if-timing
+            begin
+            commit
+        exit
+    exit
+#--------------------------------------------------
+echo "Management Router Configuration"
+#--------------------------------------------------
+    router management
+    exit
+
+#--------------------------------------------------
+echo "Router (Network Side) Configuration"
+#--------------------------------------------------
+    router Base
+        interface "system"
+            address 10.255.255.3/32
+            no shutdown
+        exit
+        interface "to-P-1"
+            address 10.3.0.2/24
+            description "to-P-1"
+            port 1/1/1
+            no shutdown
+        exit
+        interface "to-P-1N"
+            address 10.5.0.2/24
+            description "to-P-1N"
+            port 1/1/2
+            no shutdown
+        exit
+        interface "to-PE-1"
+            address 11.1.0.1/24
+            description "to-PE-1"
+            port 1/1/5:10
+            no shutdown
+        exit
+        autonomous-system 21277
+        ip-fast-reroute
+#--------------------------------------------------
+echo "MPLS LABEL RANGE Configuration"
+#--------------------------------------------------
+        mpls-labels
+            sr-labels start 20000 end 40000
+        exit
+#--------------------------------------------------
+echo "OSPFv2 Configuration"
+#--------------------------------------------------
+        ospf 0
+            loopfree-alternate remote-lfa
+            area 0.0.0.0
+                interface "system"
+                    no shutdown
+                exit
+                interface "to-P-1"
+                    interface-type point-to-point
+                    no shutdown
+                exit
+                interface "to-P-1N"
+                    interface-type point-to-point
+                    no shutdown
+                exit
+                interface "to-PE-1"
+                    interface-type point-to-point
+                    no shutdown
+                exit
+            exit
+            no shutdown
+        exit
+#--------------------------------------------------
+echo "ISIS Configuration"
+#--------------------------------------------------
+        isis 0
+            level-capability level-2
+            area-id 49.0180.0001
+            advertise-router-capability area
+            loopfree-alternate remote-lfa
+            interface "system"
+                ipv4-node-sid index 3
+                no shutdown
+            exit
+            interface "to-P-1"
+                interface-type point-to-point
+                no shutdown
+            exit
+            interface "to-P-1N"
+                interface-type point-to-point
+                no shutdown
+            exit
+            interface "to-PE-1"
+                level-capability level-2
+                interface-type point-to-point
+                no shutdown
+            exit
+            segment-routing
+                export-tunnel-table ldp
+                prefix-sid-range global
+                mapping-server
+                    sid-map node-sid index 7 prefix 10.255.255.7/32
+                    no shutdown
+                exit
+                no shutdown
+            exit
+            no shutdown
+        exit
+#--------------------------------------------------
+echo "LDP Configuration"
+#--------------------------------------------------
+        ldp
+            export-tunnel-table "export-ldp"
+            interface-parameters
+                interface "to-P-1N" dual-stack
+                    ipv4
+                        no shutdown
+                    exit
+                    no shutdown
+                exit
+            exit
+            targeted-session
+            exit
+            no shutdown
+        exit
+#--------------------------------------------------
+echo "Web Portal Protocol Configuration"
+#--------------------------------------------------
+    exit
+
+#--------------------------------------------------
+echo "Service Configuration"
+#--------------------------------------------------
+    service
+        sdp 31 mpls create
+            far-end 10.255.255.1
+            sr-isis
+            keep-alive
+                shutdown
+            exit
+            no shutdown
+        exit
+        sdp 38 mpls create
+            far-end 10.255.255.8
+            sr-isis
+            keep-alive
+                shutdown
+            exit
+            no shutdown
+        exit
+        customer 1 create
+            description "Default customer"
+        exit
+        vpls 1 customer 1 create
+            stp
+                shutdown
+            exit
+            spoke-sdp 31:1 create
+                no shutdown
+            exit
+            no shutdown
+        exit
+    exit
+#--------------------------------------------------
+echo "Router (Service Side) Configuration"
+#--------------------------------------------------
+    router Base
+#--------------------------------------------------
+echo "OSPFv2 Configuration"
+#--------------------------------------------------
+        ospf 0
+            no shutdown
+        exit
+#--------------------------------------------------
+echo "ISIS Configuration"
+#--------------------------------------------------
+        isis 0
+            segment-routing
+                export-tunnel-table ldp
+                prefix-sid-range global
+                mapping-server
+                    sid-map node-sid index 7 prefix 10.255.255.7/32
+                    no shutdown
+                exit
+                no shutdown
+            exit
+            no shutdown
+        exit
+#--------------------------------------------------
+echo "Policy Configuration"
+#--------------------------------------------------
+        policy-options
+            begin
+            policy-statement "allow"
+                default-action accept
+                exit
+            exit
+            policy-statement "export-ldp"
+                entry 10
+                    from
+                        protocol isis
+                    exit
+                    to
+                        protocol ldp
+                    exit
+                    action accept
+                    exit
+                exit
+            exit
+            commit
+        exit
+#--------------------------------------------------
+echo "BGP Configuration"
+#--------------------------------------------------
+        bgp
+            min-route-advertisement 1
+            group "BB"
+                family ipv4 vpn-ipv4 evpn
+                type internal
+                local-as 21277
+                neighbor 10.255.255.1
+                exit
+            exit
+            no shutdown
+        exit
+    exit
+
+
+exit all
+
+# Finished THU MAR 05 07:22:29 2020 UTC
