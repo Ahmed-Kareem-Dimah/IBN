@@ -1,0 +1,211 @@
+Building configuration...
+
+Current configuration : 2821 bytes
+!
+! Last configuration change at 12:29:17 UTC Thu Mar 5 2020 by dema
+!
+version 16.7
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname PE-1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+! 
+! 
+! 
+! 
+!
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+license udi pid CSR1000V sn 9AYSJHU18FI
+no license smart enable
+diagnostic bootup level minimal
+!
+spanning-tree extend system-id
+!
+!
+!
+username dema privilege 15 secret 5 $1$Vq8a$NywN85gB2uAeVIjo18lkQ/
+!
+redundancy
+!
+!
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+! 
+! 
+!
+!
+interface Loopback0
+ ip address 10.254.254.11 255.255.255.255
+ ip ospf 1 area 0
+!
+interface Tunnel0
+ ip address 20.20.20.1 255.255.255.0
+ no ip redirects
+ ip nhrp network-id 1
+ tunnel source 11.1.0.2
+ tunnel mode gre multipoint
+!
+interface GigabitEthernet1
+ no ip address
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet1.10
+ encapsulation dot1Q 10
+ ip address 11.1.0.2 255.255.255.0
+ ip router isis PE-1
+ ip ospf network point-to-point
+ ip ospf 1 area 0
+!
+interface GigabitEthernet1.20
+ encapsulation dot1Q 20
+!
+interface GigabitEthernet2
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet3
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet4
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+!
+router eigrp 1
+ network 10.254.254.11 0.0.0.0
+ network 11.1.0.0 0.0.0.255
+!
+router ospf 1
+ router-id 10.254.254.11
+!
+router isis PE-1
+ metric-style narrow
+!
+router isis
+ net 49.0180.0000.0000.0001.00
+ is-type level-2-only
+ metric-style narrow
+!
+router bgp 21288
+ bgp log-neighbor-changes
+ neighbor 10.254.254.12 remote-as 21288
+ neighbor 10.254.254.12 cluster-id 1.1.1.1
+ neighbor 10.254.254.12 update-source Loopback0
+ neighbor 10.254.254.13 remote-as 21288
+ neighbor 10.254.254.13 cluster-id 1.1.1.1
+ neighbor 10.254.254.13 update-source Loopback0
+ neighbor 10.254.254.14 remote-as 21288
+ neighbor 10.254.254.14 cluster-id 1.1.1.1
+ neighbor 10.254.254.14 update-source Loopback0
+ neighbor 10.254.254.15 remote-as 21288
+ neighbor 10.254.254.15 cluster-id 1.1.1.1
+ neighbor 10.254.254.15 update-source Loopback0
+ neighbor 10.254.254.16 remote-as 21288
+ neighbor 10.254.254.16 cluster-id 1.1.1.1
+ neighbor 10.254.254.16 update-source Loopback0
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+!
+!
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+line con 0
+ login local
+ stopbits 1
+line vty 0 5
+ login local
+!
+wsma agent exec
+!
+wsma agent config
+!
+wsma agent filesys
+!
+wsma agent notify
+!
+!
+end
