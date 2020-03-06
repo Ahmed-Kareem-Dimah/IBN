@@ -1,4 +1,4 @@
-# Ahmed Kareem Dimah - - IBN testing-Project / Simulating Intent-based networking with multiple network Vendors
+# IBN testing-Project / Simulating Intent-based networking with multiple network Vendors
 
 # STEPS 
   0- Data Mining.
