@@ -1,7 +1,9 @@
-# Ahmed Kareem Dimah - - IBN testing-Project / Simulating Intent-based networking with multiple network Vendors
+# IBN testing-Project / Simulating Intent-based networking with multiple network Vendors
 
 # STEPS 
-  1- Featching datasets for each network service.
+  0- Data Mining.
+  
+  1- Create datasets for each network service.
   
   2- Building machine learning algorithems to find the optimum one that will be used later:
   
