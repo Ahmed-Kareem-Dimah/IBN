@@ -1,0 +1,196 @@
+Building configuration...
+
+Current configuration : 2348 bytes
+!
+! Last configuration change at 06:13:18 UTC Fri Mar 6 2020
+!
+version 16.7
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname PE-4
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+! 
+! 
+! 
+! 
+!
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+license udi pid CSR1000V sn 9X0WRSZLER5
+no license smart enable
+diagnostic bootup level minimal
+!
+spanning-tree extend system-id
+!
+!
+!
+username dema privilege 15 secret 5 $1$dgUN$Rmd2SF5RgyIcVzUBKtYfl1
+!
+redundancy
+!
+!
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+! 
+! 
+!
+!
+interface Loopback0
+ ip address 10.254.254.14 255.255.255.255
+ ip ospf 1 area 0
+!
+interface Tunnel0
+ ip address 20.20.20.4 255.255.255.0
+ no ip redirects
+ ip nhrp map multicast 11.1.0.2
+ ip nhrp map 20.20.20.1 11.1.0.2
+ ip nhrp network-id 1
+ ip nhrp nhs 20.20.20.1
+ tunnel source GigabitEthernet1.10
+ tunnel mode gre multipoint
+!
+interface GigabitEthernet1
+ no ip address
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet1.2
+ encapsulation dot1Q 2
+ ip address 192.168.0.6 255.255.255.248
+ vrrp 1 ip 192.168.0.4
+!
+interface GigabitEthernet1.10
+ encapsulation dot1Q 10
+ ip address 11.4.0.2 255.255.255.0
+ ip ospf network point-to-point
+ ip ospf 1 area 0
+!
+interface GigabitEthernet2
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet3
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet4
+ ip address 11.10.0.1 255.255.255.0
+ ip ospf network point-to-point
+ ip ospf 1 area 0
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+!
+router eigrp 1
+ network 10.254.254.14 0.0.0.0
+ network 11.4.0.0 0.0.0.255
+ network 11.10.0.0 0.0.0.255
+!
+router ospf 1
+ router-id 10.254.254.14
+!
+router bgp 21288
+ bgp log-neighbor-changes
+ neighbor 10.254.254.11 remote-as 21288
+ neighbor 10.254.254.11 update-source Loopback0
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+!
+!
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+line con 0
+ login local
+ stopbits 1
+line vty 0 4
+ login local
+!
+wsma agent exec
+!
+wsma agent config
+!
+wsma agent filesys
+!
+wsma agent notify
+!
+!
+end
