@@ -3,7 +3,7 @@
 # All rights reserved. All use subject to applicable license agreements.
 # Built on Wed May 25 17:42:07 PDT 2016 by builder in /rel14.0/b1/R3/panos/main
 
-# Generated THU MAR 05 07:39:09 2020 UTC
+# Generated SAT MAR 07 15:47:29 2020 UTC
 
 exit all
 configure
@@ -135,6 +135,12 @@ echo "Router (Network Side) Configuration"
             port 1/1/3
             no shutdown
         exit
+        interface "to-exist-02"
+            address 12.2.0.1/24
+            description "to-exit-02"
+            port 1/1/5
+            no shutdown
+        exit
         autonomous-system 21277
         ip-fast-reroute
 #--------------------------------------------------
@@ -147,12 +153,11 @@ echo "MPLS LABEL RANGE Configuration"
 echo "OSPFv2 Configuration"
 #--------------------------------------------------
         ospf 0
-            shutdown
-            advertise-router-capability area
+            asbr
+            export "DC-to-BB"
             loopfree-alternate remote-lfa
             area 0.0.0.0
                 interface "system"
-                    node-sid index 8
                     no shutdown
                 exit
                 interface "to-P-2L"
@@ -164,6 +169,7 @@ echo "OSPFv2 Configuration"
                     no shutdown
                 exit
             exit
+            no shutdown
         exit
 #--------------------------------------------------
 echo "ISIS Configuration"
@@ -284,13 +290,59 @@ echo "Router (Service Side) Configuration"
 echo "OSPFv2 Configuration"
 #--------------------------------------------------
         ospf 0
-            shutdown
+            no shutdown
         exit
 #--------------------------------------------------
 echo "ISIS Configuration"
 #--------------------------------------------------
         isis 0
             no shutdown
+        exit
+#--------------------------------------------------
+echo "Policy Configuration"
+#--------------------------------------------------
+        policy-options
+            begin
+            prefix-list "exit-02"
+                prefix 10.253.253.0/24 exact
+                prefix 10.253.253.0/24 longer
+            exit
+            policy-statement "BB-to-DC"
+                entry 10
+                    from
+                        protocol ospf
+                    exit
+                    to
+                        protocol bgp
+                    exit
+                    action accept
+                    exit
+                exit
+                entry 20
+                    from
+                        protocol isis
+                    exit
+                    to
+                        protocol bgp
+                    exit
+                    action accept
+                    exit
+                exit
+            exit
+            policy-statement "DC-to-BB"
+                entry 10
+                    from
+                        protocol bgp
+                        prefix-list "exit-02"
+                    exit
+                    to
+                        protocol ospf
+                    exit
+                    action accept
+                    exit
+                exit
+            exit
+            commit
         exit
 #--------------------------------------------------
 echo "BGP Configuration"
@@ -304,6 +356,16 @@ echo "BGP Configuration"
                 neighbor 10.255.255.1
                 exit
             exit
+            group "DC"
+                export "BB-to-DC" 
+                neighbor 12.2.0.2
+                    family ipv4 evpn
+                    local-address 12.2.0.1
+                    type external
+                    local-as 21277
+                    peer-as 21299
+                exit
+            exit
             no shutdown
         exit
     exit
@@ -311,4 +373,4 @@ echo "BGP Configuration"
 
 exit all
 
-# Finished THU MAR 05 07:39:15 2020 UTC
+# Finished SAT MAR 07 15:47:36 2020 UTC

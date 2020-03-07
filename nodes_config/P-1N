@@ -1,10 +1,9 @@
 -config 
 # TiMOS-B-14.0.R3 both/i386 ALCATEL SR 7750 Copyright (c) 2000-2016 Alcatel-Lucent.
-
 # All rights reserved. All use subject to applicable license agreements.
 # Built on Wed May 25 17:42:07 PDT 2016 by builder in /rel14.0/b1/R3/panos/main
 
-# Generated THU MAR 05 07:56:29 2020 UTC
+# Generated SAT MAR 07 15:47:11 2020 UTC
 
 exit all
 configure
@@ -166,6 +165,8 @@ echo "MPLS LABEL RANGE Configuration"
 echo "OSPFv2 Configuration"
 #--------------------------------------------------
         ospf 0
+            asbr
+            export "DC_TO_BB"
             loopfree-alternate remote-lfa
             area 0.0.0.0
                 interface "system"
@@ -326,6 +327,62 @@ echo "ISIS Configuration"
             no shutdown
         exit
 #--------------------------------------------------
+echo "Policy Configuration"
+#--------------------------------------------------
+        policy-options
+            begin
+            prefix-list "Exit-01-prefixs"
+                prefix 10.253.253.21/32 exact
+            exit
+            policy-statement "BB_tO_DC"
+                entry 10
+                    from
+                        protocol ospf
+                    exit
+                    to
+                        protocol bgp
+                    exit
+                    action accept
+                    exit
+                exit
+                entry 20
+                    from
+                        protocol direct
+                    exit
+                    to
+                        protocol bgp
+                    exit
+                    action accept
+                    exit
+                exit
+                entry 30
+                    from
+                        protocol isis
+                    exit
+                    to
+                        protocol bgp
+                    exit
+                    action accept
+                    exit
+                exit
+            exit
+            policy-statement "DC_TO_BB"
+                entry 10
+                    from
+                        protocol bgp
+                    exit
+                    to
+                        protocol ospf all
+                    exit
+                    action accept
+                    exit
+                exit
+                default-action accept
+                exit
+            exit
+            commit
+        exit
+#--------------------------------------------------
 echo "BGP Configuration"
 #--------------------------------------------------
         bgp
@@ -337,6 +394,17 @@ echo "BGP Configuration"
                     local-as 21277
                 exit
             exit
+            group "DC"
+                neighbor 12.1.0.2
+                    family ipv4 evpn
+                    local-address 12.1.0.1
+                    type external
+                    import "DC_TO_BB" 
+                    export "BB_tO_DC" 
+                    local-as 21277
+                    peer-as 21299
+                exit
+            exit
             no shutdown
         exit
     exit
@@ -344,4 +412,4 @@ echo "BGP Configuration"
 
 exit all
 
-# Finished THU MAR 05 07:56:33 2020 UTC
+# Finished SAT MAR 07 15:47:16 2020 UTC

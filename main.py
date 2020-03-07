@@ -32,9 +32,7 @@ def getbackup():
         'password': 'dema',
     }
     nokia_IPs = ['10.255.255.1', '10.255.255.2', '10.255.255.3', '10.255.255.4', '10.255.255.5', '10.255.255.6', '10.255.255.7', '10.255.255.8']  # the list of  Nokia nodes in the network
-    cumulus_IPs = ['10.233.233.1', '10.233.233.2', '10.233.233.3', '10.233.233.4', '10.233.233.5', '10.244.244.244.1',
-                   '10.244.244.2', '10.244.244.3', '10.244.244.4',
-                   '10.244.244.5']  # the list of cumulus nodes in the network
+    cumulus_IPs = ['10.253.253.21', '10.253.253.22', '10.253.253.23', '10.253.253.24', '10.253.253.25', '10.253.253.26', '10.253.253.27', '10.253.253.28', '10.253.253.29', '10.253.253.30', '10.253.253.31', '10.253.253.32', '10.253.253.33', '10.253.253.34', '10.253.253.35', '10.253.253.36' ]  # the list of cumulus nodes in the network
     cisco_IPs = ['10.254.254.11', '10.254.254.12', '10.254.254.13', '10.254.254.14', '10.254.254.15', '10.254.254.16']
     try:
         if ipz in nokia_IPs:
@@ -61,17 +59,11 @@ def getbackup():
         elif ipz in cumulus_IPs:
             connect = ConnectHandler(**cumulus)
             # get device name
-            # deviceinfo = connect.send_command('show chassis | match Name post-lines 13')
-            # devicename = re.search(r"(.+Name) +(:) (.+)", deviceinfo, re.I).group(3)
-            # output_dict[devicename] = devicename
-            # out_q.put(output_dict)
+            deviceinfo = connect.send_command('net sho hostname')
             #
             # # get the backupFile name
-            # filename = connect.send_command('show bof | match primary-config')
-            # backup = re.search(r"(.+primary-config) +(.+)", filename, re.I).group(2)
-            #
-            # # send backup config to FTP with ip and device name
-            # connect.send_command(('file copy ') + (backup) + (' ftp://ALU:lucent@10.22.33.2/dema/') + (ipz) + ('_') + (devicename))
+            config = connect.send_command('net sho configuration commands')
+            Write_file(config, deviceinfo)
             connect.disconnect()
 
         elif ipz in cisco_IPs:
