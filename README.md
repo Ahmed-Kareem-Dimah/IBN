@@ -9,7 +9,7 @@
   
     A- Supervised learning 
     B- Unsupervised learning 
-    C- Re-inforcment learning
+    C- Reinforcement learning
     
   3- Connecting the network with the module that got optimum learning rate from our datasets from step 1.
   
@@ -38,7 +38,7 @@
   
 # Current Running Configuration: 
   # IGP:
-    1- OSPF (CISCO, KIA)
+    1- OSPF (CISCO, NOKIA)
     2- ISIS (NOKIA)
     3- EIGRP(CISCO)
     4- EGP (Cumulus, NOKIA)
