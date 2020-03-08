@@ -9,7 +9,7 @@
   
     A- Supervised learning 
     B- Unsupervised learning 
-    C- Re-inforcment learning
+    C- Reinforcement learning
     
   3- Connecting the network with the module that got optimum learning rate from our datasets from step 1.
   
