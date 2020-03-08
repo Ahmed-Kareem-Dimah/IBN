@@ -98,7 +98,7 @@
     
     -- GMPLS (MPLS-TP) (Future update)
 
-  # Automation/Machine Learning/ Artificial intelligence/ Analyzing
+  # Dependencies : Automation/Machine Learning/ Artificial intelligence/ Analyzing
     1- Sandbox (Dockers) / BaseMachine (GPU/NVIDIA Tesla K4)
       1.1- Python3.7 (Libraries: netmiko, Nampy, Sklearn, multiprocessing, threading, SMTPlib, xlsxwriter, Tensoflow, Panda, Pymango, MYSQLdb)
       1.2- Database [MongoDB, MySQL]
