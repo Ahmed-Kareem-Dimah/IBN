@@ -38,7 +38,7 @@
   
 # Current Running Configuration: 
   # IGP:
-    1- OSPF (CISCO, KIA)
+    1- OSPF (CISCO, NOKIA)
     2- ISIS (NOKIA)
     3- EIGRP(CISCO)
     4- EGP (Cumulus, NOKIA)
